@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/home/food_page_body.dart';
+import 'package:food_delivery_app/pages/home/food_page_body.dart';
 import 'package:food_delivery_app/utils/colors.dart';
 import 'package:food_delivery_app/utils/dimensions.dart';
 import 'package:food_delivery_app/widgets/big_text.dart';
@@ -50,6 +50,7 @@ class _MainFoodPageState extends State<MainFoodPage> {
                       child: Icon(
                         Icons.search,
                         color: Colors.white,
+                        size: Dimensions.iconsize24,
                       ),
                       decoration: BoxDecoration(
                         borderRadius:
@@ -62,7 +63,7 @@ class _MainFoodPageState extends State<MainFoodPage> {
               ),
             ),
           ),
-          FoodPageBody(),
+          Expanded(child: SingleChildScrollView(child: FoodPageBody())),
         ],
       ),
     );
