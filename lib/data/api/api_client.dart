@@ -1,3 +1,4 @@
+import 'package:food_delivery_app/utils/app_constants.dart';
 import 'package:get/get_connect.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 
@@ -5,15 +6,19 @@ class ApiClient extends GetConnect implements GetxService {
   late String token;
   final String appBaseUrl;
   late Map<String, String> _mainHeaders;
+
   ApiClient({required this.appBaseUrl}) {
     baseUrl = appBaseUrl;
-    timeout = Duration(seconds: 30);
+    token = AppConstants.Token;
+    timeout = Duration(seconds: 60);
     _mainHeaders = {
-      'Content-type': 'application/json ; charset = UTF-8',
-      'Authorization': 'Bearer $token'
+      'content-type': 'application/json; charset = UTF-8',
+      'Authorization': 'Bearer $token',
     };
   }
-  Future<Response> getData(String uri) async {
+  Future<Response> getData(
+    String uri,
+  ) async {
     try {
       Response response = await get(uri);
       return response;

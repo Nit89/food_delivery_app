@@ -1,22 +1,28 @@
-import 'dart:ffi';
-
+import 'package:flutter/material.dart';
 import 'package:food_delivery_app/data/repository/popular_product_repo.dart';
-import 'package:get/get.dart';
+import 'package:food_delivery_app/models/products_model.dart';
+import 'package:get/get_connect.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 
 class PopularProductController extends GetxController {
-  final PopularProductRep popularProductRep;
-
-  PopularProductController({required this.popularProductRep});
-
+  final PopularProductRepo popularProductRepo;
+  PopularProductController({required this.popularProductRepo});
   List<dynamic> _popularProductList = [];
   List<dynamic> get popularProductList => _popularProductList;
+  bool _isLoaded = false;
+  bool get isLoaded => _isLoaded;
+
   Future<void> getPopularProductList() async {
-    Response response = await popularProductRep.getPopularProductList();
+    Response response = await popularProductRepo.getPopularProductList();
     if (response.statusCode == 200) {
+      print("heleo");
       _popularProductList = [];
-      //_popularProductList.addAll();
+      _popularProductList.addAll(Product.fromJson(response.body).Products);
+      //print(_popularProductList);
+      _isLoaded = true;
       update();
-    } else {}
+    } else {
+      print('error');
+    }
   }
 }

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/controllers/popular_product_controller.dart';
+import 'package:food_delivery_app/utils/app_constants.dart';
 import 'package:food_delivery_app/utils/colors.dart';
 import 'package:food_delivery_app/widgets/app_icon.dart';
+import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 
@@ -11,10 +14,13 @@ import '../../widgets/expandable_text_widget.dart';
 import '../home/main_food_page.dart';
 
 class PopularFoodDetail extends StatelessWidget {
-  const PopularFoodDetail({Key? key}) : super(key: key);
+  int pageId;
+  PopularFoodDetail({Key? key, required this.pageId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var product =
+        Get.find<PopularProductController>().popularProductList[pageId];
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -24,14 +30,16 @@ class PopularFoodDetail extends StatelessWidget {
             left: 0,
             right: 0,
             child: Container(
-              width: double.maxFinite,
-              height: Dimensions.popularFoodImgSize,
-              decoration: const BoxDecoration(
-                  image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: AssetImage("assets/image/one.jpg"))),
-            ),
+                width: double.maxFinite,
+                height: Dimensions.popularFoodImgSize,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(AppConstants.BASE_URL +
+                            AppConstants.UPLOAD_URL +
+                            product.img!)))),
           ),
+
           // icon widget
           Positioned(
               top: Dimensions.height45,
@@ -68,8 +76,8 @@ class PopularFoodDetail extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const AppColumn(
-                      text: "chinese side",
+                    AppColumn(
+                      text: product.name!,
                     ),
                     SizedBox(
                       height: Dimensions.height20,
@@ -79,11 +87,9 @@ class PopularFoodDetail extends StatelessWidget {
                       height: Dimensions.height20,
                     ),
                     // expandable text widget
-                    const Expanded(
+                    Expanded(
                       child: SingleChildScrollView(
-                        child: ExpandableText(
-                            text:
-                                "This aromatic type of biryani is popular in Pakistan and known for its spicy taste, fragrant rice, and delicate meat. This biryani is one of India's most popular types of biryani. It incorporates goat meat that is marinated and cooked along with the rice and is seasoned with coconut and saffron It is made with meat and basmati rice, vegetables, and various types of spices"),
+                        child: ExpandableText(text: product.description!),
                       ),
                     )
                   ],
